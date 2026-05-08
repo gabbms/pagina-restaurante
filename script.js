@@ -1,0 +1,263 @@
+const PRATOS = [
+  {
+    id:1, nome:"Feijoada Completa", cat:"prato-principal",
+    emoji:"🫘", preco:45.00,
+    desc:"Feijoada negra com carnes nobres, servida com arroz branco soltinho, farofa crocante, couve refogada e rodelas de laranja.",
+    tags:["serve até 3 pessoas","contém glúten"],
+    personalizacoes:["Substituir farofa por pirão","Sem pimenta","Couve extra (+R$3)","Laranja extra (+R$2)"],
+    badge:"Popular", veggie:false, disponivel:true, destaque:true
+  },
+  {
+    id:2, nome:"Escondidinho de Carne Seca", cat:"prato-principal",
+    emoji:"🥘", preco:38.00,
+    desc:"Camadas generosas de mandioca cremosa com carne seca desfiada, gratinadas com queijo coalho e finalizada com manteiga de garrafa.",
+    tags:["individual","sem glúten"],
+    personalizacoes:["Frango no lugar de carne seca","Mandioca extra (+R$4)","Queijo extra (+R$5)","Sem pimenta"],
+    badge:"Chef Recomenda", veggie:false, disponivel:true, destaque:true
+  },
+  {
+    id:3, nome:"Arroz de Cuxá", cat:"prato-principal",
+    emoji:"🍚", preco:32.00,
+    desc:"Prato típico maranhense: arroz preparado com vinagreira fresca, gergelim torrado e camarão seco. Sabor único e inconfundível.",
+    tags:["individual","contém frutos do mar"],
+    personalizacoes:["Sem camarão (versão vegana)","Porção maior (+R$8)"],
+    badge:"Típico MA", veggie:false, disponivel:true, destaque:false
+  },
+  {
+    id:4, nome:"Moqueca de Peixe", cat:"prato-principal",
+    emoji:"🐟", preco:52.00,
+    desc:"Peixe fresco da pesca local cozido em leite de coco, azeite de dendê, tomate, cebola e coentro. Acompanha pirão e arroz.",
+    tags:["serve até 2 pessoas","sem glúten","contém peixe"],
+    personalizacoes:["Camarão no lugar do peixe (+R$15)","Versão sem dendê","Arroz extra (+R$5)"],
+    badge:null, veggie:false, disponivel:true, destaque:true
+  },
+  {
+    id:5, nome:"Baião de Dois", cat:"prato-principal",
+    emoji:"🫙", preco:28.00,
+    desc:"Receita tradicional do nordeste com arroz e feijão-verde cozidos juntos, temperados com queijo coalho, bacon e ervas frescas.",
+    tags:["individual","contém glúten"],
+    personalizacoes:["Versão vegetariana (sem bacon)","Arroz integral","Queijo extra (+R$4)"],
+    badge:null, veggie:false, disponivel:false, destaque:false
+  },
+  {
+    id:6, nome:"Bolinho de Bacalhau", cat:"porcao",
+    emoji:"🥙", preco:25.00,
+    desc:"6 unidades de bolinho crocante por fora e cremoso por dentro, preparado com bacalhau importado dessalgado, batata e ervas.",
+    tags:["6 unidades","contém peixe"],
+    personalizacoes:["8 unidades (+R$7)","Molho aioli extra (+R$4)"],
+    badge:null, veggie:false, disponivel:true, destaque:false
+  },
+  {
+    id:7, nome:"Salada Verde da Roça", cat:"vegetariano",
+    emoji:"🥗", preco:22.00,
+    desc:"Mix de folhas frescas, tomate cereja, pepino, cenoura ralada, beterraba e sementes, com molho de limão e azeite extra virgem.",
+    tags:["vegano","sem glúten","individual"],
+    personalizacoes:["Acrescentar ovo poché (+R$3)","Acrescentar frango grelhado (+R$8)","Molho extra (+R$2)"],
+    badge:"Vegano", veggie:true, disponivel:true, destaque:false
+  },
+  {
+    id:8, nome:"Prato Vegetariano do Dia", cat:"vegetariano",
+    emoji:"🌽", preco:30.00,
+    desc:"Preparação especial que muda diariamente, sempre com legumes e verduras frescos da feira, grãos e um toque criativo do chef.",
+    tags:["vegetariano","perguntar ao garçom"],
+    personalizacoes:["Versão vegana","Porção extra (+R$10)"],
+    badge:"Veggie", veggie:true, disponivel:true, destaque:false
+  },
+  {
+    id:9, nome:"Pudim de Leite do Clidenor", cat:"sobremesa",
+    emoji:"🍮", preco:14.00,
+    desc:"Pudim artesanal com receita secreta da sous chef Ana Beatriz. Textura sedosa, caramelo dourado e gostinho de infância.",
+    tags:["individual","contém leite"],
+    personalizacoes:["Porção dupla (+R$10)","Calda de chocolate (+R$3)"],
+    badge:"Favorito", veggie:true, disponivel:true, destaque:false
+  },
+  {
+    id:10, nome:"Canjica com Coco", cat:"sobremesa",
+    emoji:"🥛", preco:12.00,
+    desc:"Canjica de milho branco cremosa, cozida no leite de coco e canela. Servida quente ou fria, como preferir.",
+    tags:["sem glúten","vegetariano"],
+    personalizacoes:["Calda de caramelo (+R$3)","Amendoim extra (+R$2)"],
+    badge:null, veggie:true, disponivel:true, destaque:false
+  }
+];
+
+let pratoPedido = null;
+
+function mostrarSecao(id, el) {
+  document.querySelectorAll('.section').forEach(s => s.classList.remove('active'));
+  document.getElementById(id).classList.add('active');
+  document.querySelectorAll('.nav-links a').forEach(a => a.classList.remove('active'));
+  if (el) el.classList.add('active');
+  window.scrollTo({ top: 0, behavior: 'smooth' });
+  if (id === 'cardapio') renderCardapio();
+  if (id === 'home') renderDestaques();
+  if (id === 'admin') renderAdmin();
+}
+
+function renderCard(p, container) {
+  const div = document.createElement('div');
+  div.className = 'prato-card' + (p.disponivel ? '' : ' esgotado');
+  div.dataset.cat = p.cat;
+  div.dataset.veggie = p.veggie;
+
+  const badgeHtml = p.badge ? `<div class="prato-badge${p.veggie ? ' veggie' : ''}">${p.badge}</div>` : '';
+  const esgotadoHtml = !p.disponivel ? `<div class="esgotado-overlay">⛔ Esgotado</div>` : '';
+  const tagsHtml = p.tags.map(t => {
+    let cls = 'tag-alergenico';
+    if (t.includes('vegano') || t.includes('vegetariano')) cls = 'tag-veggie';
+    if (t.includes('serve') || t.includes('unidades') || t.includes('individual')) cls = 'tag-serve';
+    return `<span class="tag ${cls}">${t}</span>`;
+  }).join('');
+
+  div.innerHTML = `
+    <div class="prato-img">
+      <div class="prato-emoji">${p.emoji}</div>
+      ${badgeHtml}${esgotadoHtml}
+    </div>
+    <div class="prato-body">
+      <div class="prato-nome">${p.nome}</div>
+      <div class="prato-desc">${p.desc}</div>
+      <div class="prato-tags">${tagsHtml}</div>
+      <div class="prato-footer">
+        <div class="prato-preco">R$${p.preco.toFixed(2).replace('.', ',')}</div>
+        <button class="btn-pedir" onclick="abrirModal(${p.id})" ${!p.disponivel ? 'disabled' : ''}>
+          ${p.disponivel ? 'Fazer Pedido' : 'Indisponível'}
+        </button>
+      </div>
+    </div>`;
+  container.appendChild(div);
+}
+
+function renderDestaques() {
+  const grid = document.getElementById('destaques-grid');
+  grid.innerHTML = '';
+  PRATOS.filter(p => p.destaque).forEach(p => renderCard(p, grid));
+}
+
+function renderCardapio() {
+  const grid = document.getElementById('cardapio-grid');
+  grid.innerHTML = '';
+  PRATOS.forEach(p => renderCard(p, grid));
+}
+
+function filtrarPratos(cat, btn) {
+  document.querySelectorAll('.filtro-btn').forEach(b => b.classList.remove('active'));
+  btn.classList.add('active');
+  const cards = document.querySelectorAll('#cardapio-grid .prato-card');
+  cards.forEach(c => {
+    if (cat === 'todos') { c.style.display = ''; return; }
+    if (cat === 'vegetariano') { c.style.display = c.dataset.veggie === 'true' ? '' : 'none'; return; }
+    c.style.display = c.dataset.cat === cat ? '' : 'none';
+  });
+}
+
+function renderAdmin() {
+  const lista = document.getElementById('admin-lista');
+  lista.innerHTML = '';
+  PRATOS.forEach(p => {
+    const div = document.createElement('div');
+    div.className = 'admin-card';
+    div.innerHTML = `
+      <div style="font-size:2rem">${p.emoji}</div>
+      <div class="admin-prato-info">
+        <div class="admin-prato-nome">${p.nome}</div>
+        <div class="admin-prato-cat">${p.cat.replace('-', ' ')} · R$${p.preco.toFixed(2).replace('.', ',')}</div>
+      </div>
+      <div class="toggle-wrap">
+        <span class="toggle-label ${p.disponivel ? 'disponivel' : 'esgotado-text'}" id="label-${p.id}">
+          ${p.disponivel ? 'Disponível' : 'Esgotado'}
+        </span>
+        <button class="toggle${p.disponivel ? ' on' : ''}" id="toggle-${p.id}" onclick="togglePrato(${p.id})"></button>
+      </div>`;
+    lista.appendChild(div);
+  });
+}
+
+function togglePrato(id) {
+  const p = PRATOS.find(x => x.id === id);
+  p.disponivel = !p.disponivel;
+  const btn = document.getElementById('toggle-' + id);
+  const lbl = document.getElementById('label-' + id);
+  btn.classList.toggle('on', p.disponivel);
+  lbl.textContent = p.disponivel ? 'Disponível' : 'Esgotado';
+  lbl.className = 'toggle-label ' + (p.disponivel ? 'disponivel' : 'esgotado-text');
+  mostrarToast(p.disponivel ? `✓ ${p.nome} marcado como Disponível` : `⛔ ${p.nome} marcado como Esgotado`);
+}
+
+function abrirModal(id) {
+  pratoPedido = PRATOS.find(p => p.id === id);
+  document.getElementById('modal-titulo').textContent = pratoPedido.nome;
+  document.getElementById('modal-info').textContent = `R$${pratoPedido.preco.toFixed(2).replace('.', ',')} · ${pratoPedido.tags.join(' · ')}`;
+
+  const opts = document.getElementById('personaliz-opts');
+  opts.innerHTML = '';
+  pratoPedido.personalizacoes.forEach((op, i) => {
+    const div = document.createElement('div');
+    div.className = 'personaliz-opt';
+    div.innerHTML = `<input type="checkbox" id="p${i}"><label for="p${i}">${op}</label>`;
+    opts.appendChild(div);
+  });
+
+  document.getElementById('campo-nome').value = '';
+  document.getElementById('campo-tel').value = '';
+  document.getElementById('campo-entrega').value = '';
+  document.getElementById('campo-pagamento').value = '';
+  document.getElementById('campo-obs').value = '';
+  document.getElementById('endereco-wrap').style.display = 'none';
+  document.getElementById('modalOverlay').classList.add('open');
+}
+
+function fecharModal() {
+  document.getElementById('modalOverlay').classList.remove('open');
+}
+
+function toggleDelivery(val) {
+  document.getElementById('endereco-wrap').style.display = val === 'delivery' ? 'block' : 'none';
+}
+
+function formatarCEP(el) {
+  let v = el.value.replace(/\D/g, '');
+  if (v.length > 5) v = v.slice(0, 5) + '-' + v.slice(5, 8);
+  el.value = v;
+}
+
+async function buscarCEP() {
+  const cep = document.getElementById('campo-cep').value.replace(/\D/g, '');
+  if (cep.length !== 8) { alert('CEP inválido. Informe 8 dígitos.'); return; }
+  try {
+    const res = await fetch(`https://viacep.com.br/ws/${cep}/json/`);
+    const data = await res.json();
+    if (data.erro) { alert('CEP não encontrado.'); return; }
+    document.getElementById('campo-rua').value = data.logradouro || '';
+    document.getElementById('campo-bairro').value = data.bairro || '';
+    document.getElementById('campo-cidade').value = `${data.localidade} – ${data.uf}`;
+    document.getElementById('campo-num').focus();
+  } catch (e) {
+    alert('Não foi possível buscar o CEP. Preencha manualmente.');
+  }
+}
+
+function confirmarPedido() {
+  const nome = document.getElementById('campo-nome').value.trim();
+  const tel = document.getElementById('campo-tel').value.trim();
+  const entrega = document.getElementById('campo-entrega').value;
+  const pag = document.getElementById('campo-pagamento').value;
+  if (!nome || !tel || !entrega || !pag) { alert('Por favor, preencha todos os campos obrigatórios.'); return; }
+  if (entrega === 'delivery') {
+    const rua = document.getElementById('campo-rua').value.trim();
+    const num = document.getElementById('campo-num').value.trim();
+    if (!rua || !num) { alert('Preencha o endereço completo para delivery.'); return; }
+  }
+  fecharModal();
+  mostrarToast(`✓ Pedido de ${pratoPedido.nome} enviado com sucesso!`);
+}
+
+function mostrarToast(msg) {
+  const t = document.getElementById('toast');
+  t.textContent = msg;
+  t.classList.add('show');
+  setTimeout(() => t.classList.remove('show'), 3500);
+}
+
+// Inicializar
+renderDestaques();
