@@ -83,11 +83,23 @@ const PRATOS = [
 
 let pratoPedido = null;
 
+// CORREÇÃO: a função agora encontra o link da nav sozinha quando nenhum é passado
 function mostrarSecao(id, el) {
   document.querySelectorAll('.section').forEach(s => s.classList.remove('active'));
   document.getElementById(id).classList.add('active');
+
+  // Remove o destaque de todos os links da nav
   document.querySelectorAll('.nav-links a').forEach(a => a.classList.remove('active'));
-  if (el) el.classList.add('active');
+
+  // Se um link foi passado direto (clique na nav), usa ele.
+  // Se não (clique nos botões do hero), procura pelo link que corresponde à seção.
+  if (el) {
+    el.classList.add('active');
+  } else {
+    const linkCorrespondente = document.querySelector(`.nav-links a[onclick*="'${id}'"]`);
+    if (linkCorrespondente) linkCorrespondente.classList.add('active');
+  }
+
   window.scrollTo({ top: 0, behavior: 'smooth' });
   if (id === 'cardapio') renderCardapio();
   if (id === 'home') renderDestaques();
@@ -204,6 +216,11 @@ function abrirModal(id) {
   document.getElementById('campo-pagamento').value = '';
   document.getElementById('campo-obs').value = '';
   document.getElementById('endereco-wrap').style.display = 'none';
+
+  // Esconde os avisos de erro ao abrir o modal
+  document.getElementById('erro-nome').style.display = 'none';
+  document.getElementById('erro-tel').style.display = 'none';
+
   document.getElementById('modalOverlay').classList.add('open');
 }
 
@@ -257,6 +274,32 @@ function mostrarToast(msg) {
   t.textContent = msg;
   t.classList.add('show');
   setTimeout(() => t.classList.remove('show'), 3500);
+}
+
+// NOVO: Validação do campo Nome — bloqueia números enquanto o usuário digita
+function validarNome(campo) {
+  const temNumero = /\d/.test(campo.value); // verifica se há algum dígito
+  const aviso = document.getElementById('erro-nome');
+
+  if (temNumero) {
+    campo.value = campo.value.replace(/\d/g, ''); // apaga só os números digitados
+    aviso.style.display = 'block'; // mostra o aviso
+  } else {
+    aviso.style.display = 'none'; // esconde o aviso se não há problema
+  }
+}
+
+// NOVO: Validação do campo Telefone — bloqueia letras enquanto o usuário digita
+function validarTelefone(campo) {
+  const temLetra = /[a-zA-ZÀ-ú]/.test(campo.value); // verifica se há letras
+  const aviso = document.getElementById('erro-tel');
+
+  if (temLetra) {
+    campo.value = campo.value.replace(/[a-zA-ZÀ-ú]/g, ''); // apaga só as letras digitadas
+    aviso.style.display = 'block'; // mostra o aviso
+  } else {
+    aviso.style.display = 'none'; // esconde o aviso se não há problema
+  }
 }
 
 // Inicializar
