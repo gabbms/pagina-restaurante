@@ -248,24 +248,49 @@ function toggleDelivery(val) {
 
 function formatarCEP(el) {
   let v = el.value.replace(/\D/g, '');
+  if (v.length > 8) v = v.slice(0, 8);
   if (v.length > 5) v = v.slice(0, 5) + '-' + v.slice(5, 8);
   el.value = v;
 }
 
 async function buscarCEP() {
-  const cep = document.getElementById('campo-cep').value.replace(/\D/g, '');
-  if (cep.length !== 8) { mostrarToast('⚠️ CEP inválido. Informe 8 dígitos.'); return; }
+  const cepInput = document.getElementById('campo-cep');
+  const cep = cepInput.value.replace(/\D/g, '');
+  
+  if (cep.length !== 8) { 
+    mostrarToast('⚠️ CEP inválido. Informe 8 dígitos.'); 
+    return; 
+  }
+
+  // Limpar campos antes da busca
+  document.getElementById('campo-rua').value = 'Buscando...';
+  document.getElementById('campo-bairro').value = 'Buscando...';
+  document.getElementById('campo-cidade').value = 'Buscando...';
+
   try {
     const res = await fetch(`https://viacep.com.br/ws/${cep}/json/`);
     const data = await res.json();
-    if (data.erro) { mostrarToast('⚠️ CEP não encontrado.'); return; }
+    
+    if (data.erro) { 
+      mostrarToast('⚠️ CEP não encontrado.');
+      limparCamposEndereco();
+      return; 
+    }
+    
     document.getElementById('campo-rua').value = data.logradouro || '';
     document.getElementById('campo-bairro').value = data.bairro || '';
     document.getElementById('campo-cidade').value = `${data.localidade} – ${data.uf}`;
     document.getElementById('campo-num').focus();
   } catch (e) {
-    mostrarToast('⚠️ Não foi possível buscar o CEP. Preencha manualmente.');
+    mostrarToast('⚠️ Erro na conexão. Preencha manualmente.');
+    limparCamposEndereco();
   }
+}
+
+function limparCamposEndereco() {
+  document.getElementById('campo-rua').value = '';
+  document.getElementById('campo-bairro').value = '';
+  document.getElementById('campo-cidade').value = '';
 }
 
 function validarNome(campo) {
@@ -281,15 +306,28 @@ function validarNome(campo) {
 }
 
 function validarTelefone(campo) {
-  const temLetra = /[a-zA-ZÀ-ú]/.test(campo.value);
-  const aviso = document.getElementById('erro-tel');
-  if (temLetra) {
-    campo.value = campo.value.replace(/[a-zA-ZÀ-ú]/g, '');
-    aviso.style.display = 'block';
-  } else {
-    aviso.style.display = 'none';
+  // Máscara automática (99) 99999-9999
+  let v = campo.value.replace(/\D/g, '');
+  if (v.length > 11) v = v.slice(0, 11);
+  
+  if (v.length > 10) {
+    v = v.replace(/^(\d{2})(\d{5})(\d{4})/, '($1) $2-$3');
+  } else if (v.length > 6) {
+    v = v.replace(/^(\d{2})(\d{4})(\d{0,4})/, '($1) $2-$3');
+  } else if (v.length > 2) {
+    v = v.replace(/^(\d{2})(\d{0,5})/, '($1) $2');
+  } else if (v.length > 0) {
+    v = v.replace(/^(\d*)/, '($1');
   }
-  return !temLetra;
+  
+  campo.value = v;
+  
+  const aviso = document.getElementById('erro-tel');
+  const numerico = v.replace(/\D/g, '');
+  const valido = numerico.length >= 10;
+  
+  aviso.style.display = !valido && numerico.length > 0 ? 'block' : 'none';
+  return valido;
 }
 
 function confirmarPedido() {
