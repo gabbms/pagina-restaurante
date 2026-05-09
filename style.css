@@ -23,7 +23,7 @@
     line-height: 1.6;
   }
 
-  /* ─── UTILITÁRIOS ─── */
+ 
   .container { max-width: 1100px; margin: 0 auto; }
   .section-padding { padding: 3rem 1.5rem; }
   .no-margin { margin: 0 !important; }
@@ -31,7 +31,7 @@
   .margin-top-md { margin-top: 1rem !important; }
   .erro-msg { color: var(--erro); font-size: 0.8rem; margin-top: 0.3rem; display: none; }
 
-  /* ─── NAVEGAÇÃO ─── */
+  
   nav {
     position: sticky; top: 0; z-index: 100;
     background: var(--verde);
@@ -66,11 +66,11 @@
   }
   .admin-btn:hover { background: var(--laranja-claro) !important; }
 
-  /* ─── SEÇÕES ─── */
+  
   .section { display: none; }
   .section.active { display: block; }
 
-  /* ─── HERO ─── */
+ 
   .hero {
     background: linear-gradient(135deg, var(--verde) 0%, #1a3a0a 50%, var(--marrom) 100%);
     color: white;
@@ -126,7 +126,7 @@
   .hero-stat strong { display: block; font-size: 2rem; color: var(--ouro); font-family: 'Playfair Display', serif; }
   .hero-stat span { font-size: 0.8rem; color: rgba(255,255,255,0.65); text-transform: uppercase; letter-spacing: 1px; }
 
-  /* ─── CARDÁPIO ─── */
+  
   .cardapio-wrap { max-width: 1100px; margin: 0 auto; padding: 3rem 1.5rem; }
   .section-title {
     font-family: 'Playfair Display', serif;
@@ -235,7 +235,7 @@
   .btn-pedir:hover { background: var(--verde-claro); }
   .btn-pedir:disabled { background: #ccc; cursor: not-allowed; }
 
-  /* ─── MODAL PEDIDO ─── */
+ 
   .modal-overlay {
     display: none; position: fixed; inset: 0;
     background: rgba(0,0,0,0.6); z-index: 1000;
@@ -310,7 +310,7 @@
   .btn-confirmar:hover { background: var(--laranja-claro); }
   .textarea-obs { resize: vertical; font-family: 'Lato', sans-serif; font-size: 0.95rem; width: 100%; padding: 0.7rem 0.9rem; border: 1.5px solid #ddd; border-radius: 6px; color: var(--cinza-escuro); }
 
-  /* ─── SOBRE ─── */
+ 
   .sobre-hero {
     background: var(--verde);
     color: white; padding: 4rem 2rem;
@@ -325,24 +325,23 @@
   .sobre-block { display: grid; grid-template-columns: 1fr 1fr; gap: 3rem; align-items: center; margin-bottom: 4rem; }
   .sobre-block.reverse { direction: rtl; }
   .sobre-block.reverse > * { direction: ltr; }
-  /* ─── IMAGENS DA SEÇÃO SOBRE ─── */
-  /* Estilos base compartilhados entre as duas imagens */
+ 
   .sobre-img {
     border-radius: 12px;
     overflow: hidden;
     aspect-ratio: 4/3;
-    background-color: #c8a870; /* cor de fallback enquanto a imagem carrega */
+    background-color: #c8a870; 
     background-size: cover;
     background-position: center;
     background-repeat: no-repeat;
   }
 
-  /* Bloco "Como tudo começou" — cole a URL da imagem abaixo */
+  
   .sobre-img--historia {
     background-image: url('cozinha-unsplash.jpg');
   }
 
-  /* Bloco "Nossa Filosofia" — cole a URL da imagem abaixo */
+  
   .sobre-img--filosofia {
     background-image: url('foto-filosofia.jpg');
   }
@@ -398,7 +397,7 @@
   .equipe-cargo { font-size: 0.8rem; color: var(--cinza); text-transform: uppercase; letter-spacing: 0.5px; font-weight: 700; }
   .equipe-desc { font-size: 0.85rem; color: var(--cinza); margin-top: 0.75rem; }
 
-  /* ─── ADMIN ─── */
+
   .admin-wrap { max-width: 900px; margin: 0 auto; padding: 2.5rem 1.5rem; }
   .admin-header {
     background: var(--verde); color: white;
@@ -435,7 +434,7 @@
   }
   .toggle.on::after { transform: translateX(22px); }
 
-  /* ─── FOOTER ─── */
+
   footer {
     background: var(--cinza-escuro); color: rgba(255,255,255,0.7);
     padding: 2.5rem;
@@ -454,7 +453,7 @@
     padding: 1rem; font-size: 0.8rem; color: rgba(255,255,255,0.4);
   }
 
-  /* Toast */
+
   .toast {
     position: fixed; bottom: 2rem; right: 2rem;
     background: var(--verde); color: white;
@@ -466,7 +465,7 @@
   }
   .toast.show { transform: translateY(0); opacity: 1; }
 
-  /* ─── RESERVAS ─── */
+ 
   .reserva-hero {
     background: linear-gradient(135deg, var(--marrom) 0%, #3a1a08 50%, var(--verde) 100%);
     color: white; text-align: center;
@@ -491,7 +490,7 @@
   .reserva-wrap { max-width: 1100px; margin: 0 auto; padding: 3rem 1.5rem; }
   .reserva-layout { display: grid; grid-template-columns: 300px 1fr; gap: 2rem; align-items: start; }
  
-  /* ASIDE */
+
   .reserva-aside { display: flex; flex-direction: column; gap: 1rem; }
   .aside-card {
     background: white; border-radius: 12px;
@@ -515,14 +514,14 @@
   .aside-destaque h3 { color: var(--ouro); }
   .aside-destaque p { color: rgba(255,255,255,0.8); }
  
-  /* FORM CARD */
+ 
   .reserva-form-card {
     background: white; border-radius: 16px;
     border: 1px solid var(--borda); padding: 2rem;
     box-shadow: 0 4px 24px rgba(0,0,0,0.06);
   }
  
-  /* PROGRESS */
+
   .form-progress {
     display: flex; align-items: center; margin-bottom: 2.5rem;
   }
@@ -548,7 +547,7 @@
     font-size: 1.4rem; color: var(--verde); margin-bottom: 1.5rem;
   }
  
-  /* FORM ELEMENTS */
+ 
   .rform-group { margin-bottom: 1.1rem; }
   .rform-group label {
     display: block; font-size: 0.82rem; font-weight: 700;
@@ -567,7 +566,7 @@
   .rform-row { display: grid; grid-template-columns: 1fr 1fr; gap: 0.75rem; }
   .rerro-msg { color: var(--erro); font-size: 0.78rem; margin-top: 0.25rem; display: none; }
  
-  /* PESSOAS SELECTOR */
+  
   .pessoas-selector {
     display: flex; align-items: center; gap: 1rem;
     background: var(--creme); border-radius: 8px; padding: 0.6rem 1rem;
@@ -588,7 +587,7 @@
   }
   .pessoas-label { font-size: 0.85rem; color: var(--cinza); font-weight: 700; text-transform: uppercase; letter-spacing: 0.3px; }
  
-  /* BUTTONS */
+
   .btn-step {
     background: var(--laranja); color: white;
     border: none; border-radius: 6px; padding: 0.85rem 2rem;
@@ -609,7 +608,7 @@
   .btn-step-back:hover { border-color: var(--verde); color: var(--verde); }
   .btn-row { display: flex; justify-content: space-between; align-items: center; gap: 1rem; }
  
-  /* CONFIRMAÇÃO */
+  
   .confirmacao-wrap { text-align: center; padding: 2rem 1rem; }
   .confirmacao-icon {
     width: 72px; height: 72px; border-radius: 50%;
@@ -647,28 +646,4 @@
     .form-row { grid-template-columns: 1fr; }
     .nav-links a { padding: 1.2rem 0.6rem; font-size: 0.78rem; }
   }
-  /* ─── INSTRUÇÕES PARA ADICIONAR IMAGENS DOS PRATOS ─── */
-  /* 
-   * As imagens dos pratos são gerenciadas no arquivo script.js no array PRATOS.
-   * Cada prato possui uma propriedade 'imagem' com a URL da foto.
-   * 
-   * COMO ADICIONAR/MODIFICAR IMAGENS:
-   * 1. Abra o arquivo script.js
-   * 2. Localize o array PRATOS (linhas 1-92)
-   * 3. Para cada prato, atualize a propriedade 'imagem' com a URL desejada
-   * 4. As imagens serão aplicadas automaticamente via CSS background-image
-   * 
-   * EXEMPLO:
-   * {
-   *   id: 1,
-   *   nome: "Feijoada Completa",
-   *   imagem: "https://seu-servidor.com/imagens/feijoada.jpg",
-   *   ...
-   * }
-   * 
-   * O CSS já está configurado para:
-   * - Exibir imagens com cobertura total (.prato-img--foto)
-   * - Centralizar as imagens (background-position: center)
-   * - Aplicar gradiente de sobreposição para melhor legibilidade
-   * - Manter altura de 200px para todos os pratos
-   */
+  

@@ -69,10 +69,10 @@ const PRATOS = [
     desc:"Preparação especial que muda diariamente, sempre com legumes e verduras frescos da feira, grãos e um toque criativo do chef.",
     tags:["vegetariano","perguntar ao garçom"],
     personalizacoes:["Versão vegana","Porção extra (+R$10)"],
-    badge:"Veggie", veggie:true, disponivel:true, destaque:false
+    badge:"Vegetariano", veggie:true, disponivel:true, destaque:false
   },
   {
-    id:9, nome:"Pudim de Leite do Clidenor", cat:"sobremesa",
+    id:9, nome:"Pudim de Leite", cat:"sobremesa",
     emoji:"🍮", preco:14.00,
     imagem:"pudim.jpeg",
     desc:"Pudim artesanal com receita secreta da sous chef Ana Beatriz. Textura sedosa, caramelo dourado e gostinho de infância.",
@@ -102,7 +102,7 @@ function mostrarSecao(id, el) {
   if (el) {
     el.classList.add('active');
   } else {
-    // Busca o link pelo atributo data-section — simples e confiável em todos os navegadores
+    
     const linkCorrespondente = document.querySelector(`.nav-links a[data-section="${id}"]`);
     if (linkCorrespondente) linkCorrespondente.classList.add('active');
   }
@@ -146,7 +146,7 @@ function renderCard(p, container) {
     </div>`;
   container.appendChild(div);
 
-  // Aplica a imagem de fundo via JavaScript (sem style= inline no HTML)
+ 
   if (p.imagem) {
     div.querySelector('.prato-img').style.backgroundImage = `url('${p.imagem}')` ;
   }
