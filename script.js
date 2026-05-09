@@ -102,7 +102,8 @@ function mostrarSecao(id, el) {
   if (el) {
     el.classList.add('active');
   } else {
-    const linkCorrespondente = document.querySelector(`.nav-links a[onclick*="'${id}'"]`);
+    // Busca o link pelo atributo data-section — simples e confiável em todos os navegadores
+    const linkCorrespondente = document.querySelector(`.nav-links a[data-section="${id}"]`);
     if (linkCorrespondente) linkCorrespondente.classList.add('active');
   }
 
@@ -127,12 +128,10 @@ function renderCard(p, container) {
     return `<span class="tag ${cls}">${t}</span>`;
   }).join('');
 
-  const imgStyle = p.imagem
-    ? `style="background-image: url('${p.imagem}'); background-size: cover; background-position: center;"`
-    : '';
+  const imgAttr = '';
 
   div.innerHTML = `
-    <div class="prato-img" ${imgStyle}>
+    <div class="prato-img${p.imagem ? ' prato-img--foto' : ''}">
       ${p.imagem ? '' : `<div class="prato-emoji">${p.emoji}</div>`}
       ${badgeHtml}${esgotadoHtml}
     </div>
@@ -148,6 +147,11 @@ function renderCard(p, container) {
       </div>
     </div>`;
   container.appendChild(div);
+
+  // Aplica a imagem de fundo via JS diretamente no elemento (sem style= inline no HTML)
+  if (p.imagem) {
+    div.querySelector('.prato-img').style.backgroundImage = `url('${p.imagem}')`;
+  }
 }
 
 function renderDestaques() {
@@ -183,7 +187,7 @@ function renderAdmin() {
     const div = document.createElement('div');
     div.className = 'admin-card';
     div.innerHTML = `
-      <div style="font-size:2rem">${p.emoji}</div>
+      <div class="admin-emoji">${p.emoji}</div>
       <div class="admin-prato-info">
         <div class="admin-prato-nome">${p.nome}</div>
         <div class="admin-prato-cat">${p.cat.replace('-', ' ')} · R$${p.preco.toFixed(2).replace('.', ',')}</div>
