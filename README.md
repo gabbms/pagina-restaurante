@@ -51,4 +51,4 @@ Recentemente, o projeto passou por uma refatoração completa para:
 - Organizar a estrutura de arquivos e documentação.
 
 ---
-Desenvolvido com ❤️ por [Gabbms](https://github.com/gabbms) e aprimorado com auxílio de IA.
+Desenvolvido com ❤️ por [Gabbms](https://github.com/gabbms)
