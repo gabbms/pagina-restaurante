@@ -175,10 +175,6 @@
     background: linear-gradient(135deg, #e8d5b0, #c8a870);
     display: flex; align-items: center; justify-content: center;
   }
-  .prato-img--foto {
-    background-size: cover;
-    background-position: center;
-  }
   .prato-img::after {
     content: '';
     position: absolute; inset: 0;
@@ -413,7 +409,6 @@
     gap: 1rem;
   }
   .admin-prato-info { flex: 1; }
-  .admin-emoji { font-size: 2rem; }
   .admin-prato-nome { font-weight: 700; color: var(--cinza-escuro); margin-bottom: 0.2rem; }
   .admin-prato-cat { font-size: 0.8rem; color: var(--cinza); text-transform: uppercase; letter-spacing: 0.3px; }
   .toggle-wrap { display: flex; align-items: center; gap: 0.75rem; }
