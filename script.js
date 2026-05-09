@@ -128,8 +128,6 @@ function renderCard(p, container) {
     return `<span class="tag ${cls}">${t}</span>`;
   }).join('');
 
-  const imgAttr = '';
-
   div.innerHTML = `
     <div class="prato-img${p.imagem ? ' prato-img--foto' : ''}">
       ${p.imagem ? '' : `<div class="prato-emoji">${p.emoji}</div>`}
@@ -148,9 +146,9 @@ function renderCard(p, container) {
     </div>`;
   container.appendChild(div);
 
-  // Aplica a imagem de fundo via JS diretamente no elemento (sem style= inline no HTML)
+  // Aplica a imagem de fundo via JavaScript (sem style= inline no HTML)
   if (p.imagem) {
-    div.querySelector('.prato-img').style.backgroundImage = `url('${p.imagem}')`;
+    div.querySelector('.prato-img').style.backgroundImage = `url('${p.imagem}')` ;
   }
 }
 

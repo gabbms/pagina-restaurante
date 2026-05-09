@@ -174,12 +174,18 @@
     height: 200px; overflow: hidden; position: relative;
     background: linear-gradient(135deg, #e8d5b0, #c8a870);
     display: flex; align-items: center; justify-content: center;
+    background-size: cover;
+    background-position: center;
+    background-repeat: no-repeat;
   }
   .prato-img::after {
     content: '';
     position: absolute; inset: 0;
     background: linear-gradient(to top, rgba(0,0,0,0.35) 0%, rgba(0,0,0,0.05) 60%);
     pointer-events: none;
+  }
+  .prato-img--foto {
+    background-color: #f0f0f0;
   }
   .prato-emoji { font-size: 5rem; }
   .prato-badge {
@@ -641,3 +647,28 @@
     .form-row { grid-template-columns: 1fr; }
     .nav-links a { padding: 1.2rem 0.6rem; font-size: 0.78rem; }
   }
+  /* ─── INSTRUÇÕES PARA ADICIONAR IMAGENS DOS PRATOS ─── */
+  /* 
+   * As imagens dos pratos são gerenciadas no arquivo script.js no array PRATOS.
+   * Cada prato possui uma propriedade 'imagem' com a URL da foto.
+   * 
+   * COMO ADICIONAR/MODIFICAR IMAGENS:
+   * 1. Abra o arquivo script.js
+   * 2. Localize o array PRATOS (linhas 1-92)
+   * 3. Para cada prato, atualize a propriedade 'imagem' com a URL desejada
+   * 4. As imagens serão aplicadas automaticamente via CSS background-image
+   * 
+   * EXEMPLO:
+   * {
+   *   id: 1,
+   *   nome: "Feijoada Completa",
+   *   imagem: "https://seu-servidor.com/imagens/feijoada.jpg",
+   *   ...
+   * }
+   * 
+   * O CSS já está configurado para:
+   * - Exibir imagens com cobertura total (.prato-img--foto)
+   * - Centralizar as imagens (background-position: center)
+   * - Aplicar gradiente de sobreposição para melhor legibilidade
+   * - Manter altura de 200px para todos os pratos
+   */
