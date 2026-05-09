@@ -306,8 +306,18 @@ function validarNome(campo) {
 }
 
 function validarTelefone(campo) {
-  // Máscara automática (99) 99999-9999
-  let v = campo.value.replace(/\D/g, '');
+  campo.value = aplicarMascaraTel(campo.value);
+  
+  const aviso = document.getElementById('erro-tel');
+  const numerico = campo.value.replace(/\D/g, '');
+  const valido = numerico.length >= 10;
+  
+  aviso.style.display = !valido && numerico.length > 0 ? 'block' : 'none';
+  return valido;
+}
+
+function aplicarMascaraTel(valor) {
+  let v = valor.replace(/\D/g, '');
   if (v.length > 11) v = v.slice(0, 11);
   
   if (v.length > 10) {
@@ -319,15 +329,7 @@ function validarTelefone(campo) {
   } else if (v.length > 0) {
     v = v.replace(/^(\d*)/, '($1');
   }
-  
-  campo.value = v;
-  
-  const aviso = document.getElementById('erro-tel');
-  const numerico = v.replace(/\D/g, '');
-  const valido = numerico.length >= 10;
-  
-  aviso.style.display = !valido && numerico.length > 0 ? 'block' : 'none';
-  return valido;
+  return v;
 }
 
 function confirmarPedido() {
@@ -461,7 +463,130 @@ function voltarStep(step) {
   atualizarProgress(step);
 }
 
+// ═══ RESERVAS ═══
+let resPessoas = 2;
+
+function alterarPessoas(delta) {
+  resPessoas = Math.max(1, Math.min(20, resPessoas + delta));
+  document.getElementById('res-pessoas-num').textContent = resPessoas;
+  document.getElementById('pessoas-label').textContent = resPessoas === 1 ? 'pessoa' : 'pessoas';
+}
+
+function validarResNome(campo) {
+  const temNumero = /\d/.test(campo.value);
+  const aviso = document.getElementById('rerro-nome');
+  if (temNumero) {
+    campo.value = campo.value.replace(/\d/g, '');
+    aviso.style.display = 'block';
+  } else {
+    aviso.style.display = 'none';
+  }
+  return !temNumero && campo.value.trim() !== '';
+}
+
+function validarResEmail(campo) {
+  const valido = /^[^\s@]+@[^\s@]+\.[^\s@]+$/.test(campo.value);
+  const aviso = document.getElementById('rerro-email');
+  aviso.style.display = campo.value && !valido ? 'block' : 'none';
+  return valido;
+}
+
+function validarResTel(campo) {
+  campo.value = aplicarMascaraTel(campo.value);
+  const numerico = campo.value.replace(/\D/g, '');
+  const valido = numerico.length >= 10;
+  const aviso = document.getElementById('rerro-tel');
+  aviso.style.display = !valido && numerico.length > 0 ? 'block' : 'none';
+  return valido;
+}
+
+function atualizarProgress(step) {
+  for (let i = 1; i <= 3; i++) {
+    const ind = document.getElementById('step-ind-' + i);
+    if (!ind) continue;
+    ind.classList.remove('active', 'done');
+    if (i < step) ind.classList.add('done');
+    else if (i === step) ind.classList.add('active');
+  }
+  const lines = document.querySelectorAll('.progress-line');
+  lines.forEach((l, i) => {
+    l.classList.toggle('done', i < step - 1);
+  });
+}
+
+function avancarStep(step) {
+  if (step === 2) {
+    const nome = document.getElementById('res-nome');
+    const email = document.getElementById('res-email');
+    const tel = document.getElementById('res-tel');
+    
+    const nOk = validarResNome(nome) && nome.value.trim() !== '';
+    const eOk = validarResEmail(email) && email.value.trim() !== '';
+    const tOk = validarResTel(tel);
+    
+    if (!nOk) { document.getElementById('rerro-nome').style.display = 'block'; nome.focus(); return; }
+    if (!eOk) { document.getElementById('rerro-email').style.display = 'block'; email.focus(); return; }
+    if (!tOk) { document.getElementById('rerro-tel').style.display = 'block'; tel.focus(); return; }
+
+    // Configurar data mínima (hoje)
+    const hoje = new Date();
+    const dataMin = hoje.toISOString().split('T')[0];
+    document.getElementById('res-data').min = dataMin;
+  }
+
+  if (step === 3) {
+    const data = document.getElementById('res-data').value;
+    const hora = document.getElementById('res-hora').value;
+    
+    if (!data) { document.getElementById('rerro-data').style.display = 'block'; return; }
+    else { document.getElementById('rerro-data').style.display = 'none'; }
+    
+    if (!hora) { document.getElementById('rerro-hora').style.display = 'block'; return; }
+    else { document.getElementById('rerro-hora').style.display = 'none'; }
+
+    // Preencher resumo
+    const nome = document.getElementById('res-nome').value.trim();
+    const tel = document.getElementById('res-tel').value;
+    const ocasiao = document.getElementById('res-ocasiao');
+    const ocasiaoTxt = ocasiao.options[ocasiao.selectedIndex].text;
+    const obs = document.getElementById('res-obs').value.trim();
+    
+    const dataFmt = new Date(data + 'T12:00:00').toLocaleDateString('pt-BR', {
+      weekday: 'long', day: 'numeric', month: 'long', year: 'numeric'
+    });
+
+    document.getElementById('conf-nome').textContent = nome.split(' ')[0];
+    document.getElementById('conf-tel').textContent = tel;
+    
+    let resumo = `
+      <strong>Data:</strong> ${dataFmt}<br>
+      <strong>Horário:</strong> ${hora}<br>
+      <strong>Pessoas:</strong> ${resPessoas}<br>
+    `;
+    if (ocasiao.value) resumo += `<strong>Ocasião:</strong> ${ocasiaoTxt}<br>`;
+    if (obs) resumo += `<strong>Observações:</strong> ${obs}`;
+    
+    document.getElementById('conf-resumo').innerHTML = resumo;
+  }
+
+  document.querySelectorAll('.form-step').forEach(s => s.style.display = 'none');
+  document.getElementById('reserva-step-' + step).style.display = 'block';
+  atualizarProgress(step);
+  
+  // Scroll para o topo do card
+  document.getElementById('reserva-form-card').scrollIntoView({ behavior: 'smooth', block: 'start' });
+}
+
+function voltarStep(step) {
+  document.querySelectorAll('.form-step').forEach(s => s.style.display = 'none');
+  document.getElementById('reserva-step-' + step).style.display = 'block';
+  atualizarProgress(step);
+}
+
 function novaReserva() {
+  mostrarToast(`✓ Reserva confirmada com sucesso! Esperamos você.`);
+  
+  // Resetar campos
   document.getElementById('res-nome').value = '';
   document.getElementById('res-email').value = '';
   document.getElementById('res-tel').value = '';
@@ -472,7 +597,9 @@ function novaReserva() {
   resPessoas = 2;
   document.getElementById('res-pessoas-num').textContent = '2';
   document.getElementById('pessoas-label').textContent = 'pessoas';
+  
   avancarStep(1);
 }
+
 // Inicializar
 renderDestaques();

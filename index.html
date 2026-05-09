@@ -16,6 +16,7 @@
     <a href="#" class="active" onclick="mostrarSecao('home',this)">Início</a>
     <a href="#" onclick="mostrarSecao('cardapio',this)">Cardápio</a>
     <a href="#" onclick="mostrarSecao('sobre',this)">Nossa História</a>
+    <a href="#" onclick="mostrarSecao('reservas',this)">Reservas</a>
     <a href="#" class="admin-btn" onclick="mostrarSecao('admin',this)">⚙ Gestão</a>
   </div>
 </nav>
@@ -121,6 +122,148 @@
         <div class="equipe-nome">Clidenor</div>
         <div class="equipe-cargo">Atendimento</div>
         <p class="equipe-desc">O sorriso que recebe você na porta. Conhece cada prato de cor e sempre tem uma boa recomendação.</p>
+      </div>
+    </div>
+  </div>
+</section>
+
+<!-- ═══ RESERVAS ═══ -->
+<section id="reservas" class="section">
+  <div class="container section-padding">
+    <div class="section-divider"><span>✦</span></div>
+    <h2 class="section-title">Reserve sua Mesa</h2>
+    <p class="section-sub">Garanta seu lugar para uma experiência gastronômica inesquecível</p>
+
+    <div class="reserva-layout">
+      <div class="reserva-form-card" id="reserva-form-card">
+        <!-- Progress Bar -->
+        <div class="form-progress">
+          <div class="progress-step active" id="step-ind-1">
+            <div class="step-circle">1</div>
+            <span>Dados</span>
+          </div>
+          <div class="progress-line"></div>
+          <div class="progress-step" id="step-ind-2">
+            <div class="step-circle">2</div>
+            <span>Data</span>
+          </div>
+          <div class="progress-line"></div>
+          <div class="progress-step" id="step-ind-3">
+            <div class="step-circle">3</div>
+            <span>Fim</span>
+          </div>
+        </div>
+
+        <!-- Step 1: Dados Pessoais -->
+        <div class="form-step" id="reserva-step-1">
+          <div class="step-title">Quem está reservando?</div>
+          <div class="rform-group">
+            <label>Nome Completo *</label>
+            <input type="text" id="res-nome" placeholder="Seu nome" oninput="validarResNome(this)">
+            <div id="rerro-nome" class="rerro-msg">⚠️ Nome inválido.</div>
+          </div>
+          <div class="rform-row">
+            <div class="rform-group">
+              <label>E-mail *</label>
+              <input type="email" id="res-email" placeholder="seu@email.com" onblur="validarResEmail(this)">
+              <div id="rerro-email" class="rerro-msg">⚠️ E-mail inválido.</div>
+            </div>
+            <div class="rform-group">
+              <label>Telefone *</label>
+              <input type="tel" id="res-tel" placeholder="(86) 9XXXX-XXXX" oninput="validarResTel(this)">
+              <div id="rerro-tel" class="rerro-msg">⚠️ Telefone inválido.</div>
+            </div>
+          </div>
+          <div class="rform-group">
+            <label>Número de Pessoas *</label>
+            <div class="pessoas-selector">
+              <button class="pessoas-btn" onclick="alterarPessoas(-1)">-</button>
+              <span id="res-pessoas-num">2</span>
+              <button class="pessoas-btn" onclick="alterarPessoas(1)">+</button>
+              <span class="pessoas-label" id="pessoas-label">pessoas</span>
+            </div>
+          </div>
+          <button class="btn-step" onclick="avancarStep(2)">Próximo Passo →</button>
+        </div>
+
+        <!-- Step 2: Data e Hora -->
+        <div class="form-step" id="reserva-step-2" style="display:none;">
+          <div class="step-title">Quando deseja nos visitar?</div>
+          <div class="rform-row">
+            <div class="rform-group">
+              <label>Data *</label>
+              <input type="date" id="res-data">
+              <div id="rerro-data" class="rerro-msg">⚠️ Selecione uma data.</div>
+            </div>
+            <div class="rform-group">
+              <label>Horário *</label>
+              <select id="res-hora">
+                <option value="">Selecione...</option>
+                <option value="11:30">11:30</option>
+                <option value="12:00">12:00</option>
+                <option value="12:30">12:30</option>
+                <option value="13:00">13:00</option>
+                <option value="13:30">13:30</option>
+                <option value="19:00">19:00</option>
+                <option value="19:30">19:30</option>
+                <option value="20:00">20:00</option>
+                <option value="20:30">20:30</option>
+                <option value="21:00">21:00</option>
+              </select>
+              <div id="rerro-hora" class="rerro-msg">⚠️ Selecione um horário.</div>
+            </div>
+          </div>
+          <div class="rform-group">
+            <label>Ocasião Especial</label>
+            <select id="res-ocasiao">
+              <option value="">Nenhuma</option>
+              <option value="aniversario">Aniversário</option>
+              <option value="encontro">Encontro Romântico</option>
+              <option value="negocios">Reunião de Negócios</option>
+              <option value="comemoracao">Comemoração</option>
+            </select>
+          </div>
+          <div class="rform-group">
+            <label>Observações / Pedidos Especiais</label>
+            <textarea id="res-obs" rows="3" placeholder="Ex: Mesa perto da janela, restrições alimentares..."></textarea>
+          </div>
+          <div class="btn-row">
+            <button class="btn-step-back" onclick="voltarStep(1)">← Voltar</button>
+            <button class="btn-step" onclick="avancarStep(3)">Revisar Reserva →</button>
+          </div>
+        </div>
+
+        <!-- Step 3: Confirmação -->
+        <div class="form-step" id="reserva-step-3" style="display:none;">
+          <div class="confirmacao-wrap">
+            <div class="confirmacao-icon">✓</div>
+            <h3>Quase lá, <span id="conf-nome"></span>!</h3>
+            <p>Confira os detalhes da sua reserva abaixo:</p>
+            <div class="confirmacao-resumo" id="conf-resumo">
+              <!-- Preenchido via JS -->
+            </div>
+            <p class="aviso-reserva">Ao confirmar, você receberá um lembrete no telefone <strong id="conf-tel"></strong>.</p>
+            <div class="btn-row">
+              <button class="btn-step-back" onclick="voltarStep(2)">← Corrigir</button>
+              <button class="btn-step" onclick="novaReserva()">Confirmar Reserva ✓</button>
+            </div>
+          </div>
+        </div>
+      </div>
+
+      <div class="reserva-info">
+        <div class="aside-card">
+          <h3>Informações Importantes</h3>
+          <ul>
+            <li><strong>Tolerância:</strong> Mantemos sua mesa por até 15 minutos após o horário reservado.</li>
+            <li><strong>Grupos:</strong> Para reservas acima de 10 pessoas, entre em contato via WhatsApp.</li>
+            <li><strong>Cancelamento:</strong> Pedimos a gentileza de cancelar com pelo menos 2 horas de antecedência.</li>
+          </ul>
+        </div>
+        <div class="aside-card aside-destaque">
+          <h3>Horário de Funcionamento</h3>
+          <p>Almoço: 11:30 às 15:00<br>Jantar: 18:30 às 22:30</p>
+        </div>
       </div>
     </div>
   </div>
