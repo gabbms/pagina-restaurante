@@ -75,7 +75,7 @@ const PRATOS = [
     id:9, nome:"Pudim de Leite", cat:"sobremesa",
     emoji:"🍮", preco:14.00,
     imagem:"pudim.jpeg",
-    desc:"Pudim artesanal com receita secreta da sous chef Ana Beatriz. Textura sedosa, caramelo dourado e gostinho de infância.",
+    desc:"Pudim artesanal com receita secreta da sous chef Eduardo Castelo. Textura sedosa, caramelo dourado e gostinho de infância.",
     tags:["individual","contém leite"],
     personalizacoes:["Porção dupla (+R$10)","Calda de chocolate (+R$3)"],
     badge:"Favorito", veggie:true, disponivel:true, destaque:false
