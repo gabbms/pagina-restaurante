@@ -333,12 +333,12 @@
 
   /* Bloco "Como tudo começou" — cole a URL da imagem abaixo */
   .sobre-img--historia {
-    background-image: url('COLE_AQUI_A_URL_DA_IMAGEM');
+    background-image: url('cozinha-unsplash.jpg');
   }
 
   /* Bloco "Nossa Filosofia" — cole a URL da imagem abaixo */
   .sobre-img--filosofia {
-    background-image: url('COLE_AQUI_A_URL_DA_IMAGEM');
+    background-image: url('foto-filosofia.jpg');
   }
   .sobre-text h2 {
     font-family: 'Playfair Display', serif;
