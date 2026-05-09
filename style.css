@@ -323,12 +323,26 @@
   .sobre-block { display: grid; grid-template-columns: 1fr 1fr; gap: 3rem; align-items: center; margin-bottom: 4rem; }
   .sobre-block.reverse { direction: rtl; }
   .sobre-block.reverse > * { direction: ltr; }
-  .sobre-img-placeholder {
-    border-radius: 12px; overflow: hidden;
-    background: linear-gradient(135deg, #c8a870, #e8d5b0);
+  /* ─── IMAGENS DA SEÇÃO SOBRE ─── */
+  /* Estilos base compartilhados entre as duas imagens */
+  .sobre-img {
+    border-radius: 12px;
+    overflow: hidden;
     aspect-ratio: 4/3;
-    display: flex; align-items: center; justify-content: center;
-    font-size: 6rem;
+    background-color: #c8a870; /* cor de fallback enquanto a imagem carrega */
+    background-size: cover;
+    background-position: center;
+    background-repeat: no-repeat;
+  }
+
+  /* Bloco "Como tudo começou" — cole a URL da imagem abaixo */
+  .sobre-img--historia {
+    background-image: url('COLE_AQUI_A_URL_DA_IMAGEM');
+  }
+
+  /* Bloco "Nossa Filosofia" — cole a URL da imagem abaixo */
+  .sobre-img--filosofia {
+    background-image: url('COLE_AQUI_A_URL_DA_IMAGEM');
   }
   .sobre-text h2 {
     font-family: 'Playfair Display', serif;
