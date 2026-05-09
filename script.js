@@ -83,16 +83,12 @@ const PRATOS = [
 
 let pratoPedido = null;
 
-// CORREÇÃO: a função agora encontra o link da nav sozinha quando nenhum é passado
 function mostrarSecao(id, el) {
   document.querySelectorAll('.section').forEach(s => s.classList.remove('active'));
   document.getElementById(id).classList.add('active');
 
-  // Remove o destaque de todos os links da nav
   document.querySelectorAll('.nav-links a').forEach(a => a.classList.remove('active'));
 
-  // Se um link foi passado direto (clique na nav), usa ele.
-  // Se não (clique nos botões do hero), procura pelo link que corresponde à seção.
   if (el) {
     el.classList.add('active');
   } else {
@@ -142,12 +138,14 @@ function renderCard(p, container) {
 
 function renderDestaques() {
   const grid = document.getElementById('destaques-grid');
+  if (!grid) return;
   grid.innerHTML = '';
   PRATOS.filter(p => p.destaque).forEach(p => renderCard(p, grid));
 }
 
 function renderCardapio() {
   const grid = document.getElementById('cardapio-grid');
+  if (!grid) return;
   grid.innerHTML = '';
   PRATOS.forEach(p => renderCard(p, grid));
 }
@@ -165,6 +163,7 @@ function filtrarPratos(cat, btn) {
 
 function renderAdmin() {
   const lista = document.getElementById('admin-lista');
+  if (!lista) return;
   lista.innerHTML = '';
   PRATOS.forEach(p => {
     const div = document.createElement('div');
@@ -217,7 +216,6 @@ function abrirModal(id) {
   document.getElementById('campo-obs').value = '';
   document.getElementById('endereco-wrap').style.display = 'none';
 
-  // Esconde os avisos de erro ao abrir o modal
   document.getElementById('erro-nome').style.display = 'none';
   document.getElementById('erro-tel').style.display = 'none';
 
@@ -240,31 +238,67 @@ function formatarCEP(el) {
 
 async function buscarCEP() {
   const cep = document.getElementById('campo-cep').value.replace(/\D/g, '');
-  if (cep.length !== 8) { alert('CEP inválido. Informe 8 dígitos.'); return; }
+  if (cep.length !== 8) { mostrarToast('⚠️ CEP inválido. Informe 8 dígitos.'); return; }
   try {
     const res = await fetch(`https://viacep.com.br/ws/${cep}/json/`);
     const data = await res.json();
-    if (data.erro) { alert('CEP não encontrado.'); return; }
+    if (data.erro) { mostrarToast('⚠️ CEP não encontrado.'); return; }
     document.getElementById('campo-rua').value = data.logradouro || '';
     document.getElementById('campo-bairro').value = data.bairro || '';
     document.getElementById('campo-cidade').value = `${data.localidade} – ${data.uf}`;
     document.getElementById('campo-num').focus();
   } catch (e) {
-    alert('Não foi possível buscar o CEP. Preencha manualmente.');
+    mostrarToast('⚠️ Não foi possível buscar o CEP. Preencha manualmente.');
   }
 }
 
+function validarNome(campo) {
+  const temNumero = /\d/.test(campo.value);
+  const aviso = document.getElementById('erro-nome');
+  if (temNumero) {
+    campo.value = campo.value.replace(/\d/g, '');
+    aviso.style.display = 'block';
+  } else {
+    aviso.style.display = 'none';
+  }
+  return !temNumero;
+}
+
+function validarTelefone(campo) {
+  const temLetra = /[a-zA-ZÀ-ú]/.test(campo.value);
+  const aviso = document.getElementById('erro-tel');
+  if (temLetra) {
+    campo.value = campo.value.replace(/[a-zA-ZÀ-ú]/g, '');
+    aviso.style.display = 'block';
+  } else {
+    aviso.style.display = 'none';
+  }
+  return !temLetra;
+}
+
 function confirmarPedido() {
-  const nome = document.getElementById('campo-nome').value.trim();
-  const tel = document.getElementById('campo-tel').value.trim();
+  const nomeCampo = document.getElementById('campo-nome');
+  const telCampo = document.getElementById('campo-tel');
   const entrega = document.getElementById('campo-entrega').value;
   const pag = document.getElementById('campo-pagamento').value;
-  if (!nome || !tel || !entrega || !pag) { alert('Por favor, preencha todos os campos obrigatórios.'); return; }
+
+  const nomeValido = validarNome(nomeCampo) && nomeCampo.value.trim() !== '';
+  const telValido = validarTelefone(telCampo) && telCampo.value.trim() !== '';
+
+  if (!nomeValido || !telValido || !entrega || !pag) {
+    mostrarToast('⚠️ Por favor, preencha todos os campos obrigatórios corretamente.');
+    return;
+  }
+
   if (entrega === 'delivery') {
     const rua = document.getElementById('campo-rua').value.trim();
     const num = document.getElementById('campo-num').value.trim();
-    if (!rua || !num) { alert('Preencha o endereço completo para delivery.'); return; }
+    if (!rua || !num) {
+      mostrarToast('⚠️ Preencha o endereço completo para delivery.');
+      return;
+    }
   }
+
   fecharModal();
   mostrarToast(`✓ Pedido de ${pratoPedido.nome} enviado com sucesso!`);
 }
@@ -274,32 +308,6 @@ function mostrarToast(msg) {
   t.textContent = msg;
   t.classList.add('show');
   setTimeout(() => t.classList.remove('show'), 3500);
-}
-
-// NOVO: Validação do campo Nome — bloqueia números enquanto o usuário digita
-function validarNome(campo) {
-  const temNumero = /\d/.test(campo.value); // verifica se há algum dígito
-  const aviso = document.getElementById('erro-nome');
-
-  if (temNumero) {
-    campo.value = campo.value.replace(/\d/g, ''); // apaga só os números digitados
-    aviso.style.display = 'block'; // mostra o aviso
-  } else {
-    aviso.style.display = 'none'; // esconde o aviso se não há problema
-  }
-}
-
-// NOVO: Validação do campo Telefone — bloqueia letras enquanto o usuário digita
-function validarTelefone(campo) {
-  const temLetra = /[a-zA-ZÀ-ú]/.test(campo.value); // verifica se há letras
-  const aviso = document.getElementById('erro-tel');
-
-  if (temLetra) {
-    campo.value = campo.value.replace(/[a-zA-ZÀ-ú]/g, ''); // apaga só as letras digitadas
-    aviso.style.display = 'block'; // mostra o aviso
-  } else {
-    aviso.style.display = 'none'; // esconde o aviso se não há problema
-  }
 }
 
 // Inicializar
