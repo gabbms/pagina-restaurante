@@ -2,6 +2,7 @@ const PRATOS = [
   {
     id:1, nome:"Feijoada Completa", cat:"prato-principal",
     emoji:"🫘", preco:45.00,
+    imagem:"https://images.unsplash.com/photo-1504674900247-0877df9cc836?w=600&q=80",
     desc:"Feijoada negra com carnes nobres, servida com arroz branco soltinho, farofa crocante, couve refogada e rodelas de laranja.",
     tags:["serve até 3 pessoas","contém glúten"],
     personalizacoes:["Substituir farofa por pirão","Sem pimenta","Couve extra (+R$3)","Laranja extra (+R$2)"],
@@ -10,6 +11,7 @@ const PRATOS = [
   {
     id:2, nome:"Escondidinho de Carne Seca", cat:"prato-principal",
     emoji:"🥘", preco:38.00,
+    imagem:"https://images.unsplash.com/photo-1547592180-85f173990554?w=600&q=80",
     desc:"Camadas generosas de mandioca cremosa com carne seca desfiada, gratinadas com queijo coalho e finalizada com manteiga de garrafa.",
     tags:["individual","sem glúten"],
     personalizacoes:["Frango no lugar de carne seca","Mandioca extra (+R$4)","Queijo extra (+R$5)","Sem pimenta"],
@@ -18,6 +20,7 @@ const PRATOS = [
   {
     id:3, nome:"Arroz de Cuxá", cat:"prato-principal",
     emoji:"🍚", preco:32.00,
+    imagem:"https://images.unsplash.com/photo-1516684732162-798a0062be99?w=600&q=80",
     desc:"Prato típico maranhense: arroz preparado com vinagreira fresca, gergelim torrado e camarão seco. Sabor único e inconfundível.",
     tags:["individual","contém frutos do mar"],
     personalizacoes:["Sem camarão (versão vegana)","Porção maior (+R$8)"],
@@ -26,6 +29,7 @@ const PRATOS = [
   {
     id:4, nome:"Moqueca de Peixe", cat:"prato-principal",
     emoji:"🐟", preco:52.00,
+    imagem:"https://images.unsplash.com/photo-1519708227418-c8fd9a32b7a2?w=600&q=80",
     desc:"Peixe fresco da pesca local cozido em leite de coco, azeite de dendê, tomate, cebola e coentro. Acompanha pirão e arroz.",
     tags:["serve até 2 pessoas","sem glúten","contém peixe"],
     personalizacoes:["Camarão no lugar do peixe (+R$15)","Versão sem dendê","Arroz extra (+R$5)"],
@@ -34,6 +38,7 @@ const PRATOS = [
   {
     id:5, nome:"Baião de Dois", cat:"prato-principal",
     emoji:"🫙", preco:28.00,
+    imagem:"https://images.unsplash.com/photo-1574894709920-11b28e7367e3?w=600&q=80",
     desc:"Receita tradicional do nordeste com arroz e feijão-verde cozidos juntos, temperados com queijo coalho, bacon e ervas frescas.",
     tags:["individual","contém glúten"],
     personalizacoes:["Versão vegetariana (sem bacon)","Arroz integral","Queijo extra (+R$4)"],
@@ -42,6 +47,7 @@ const PRATOS = [
   {
     id:6, nome:"Bolinho de Bacalhau", cat:"porcao",
     emoji:"🥙", preco:25.00,
+    imagem:"https://images.unsplash.com/photo-1606755962773-d324e0a13086?w=600&q=80",
     desc:"6 unidades de bolinho crocante por fora e cremoso por dentro, preparado com bacalhau importado dessalgado, batata e ervas.",
     tags:["6 unidades","contém peixe"],
     personalizacoes:["8 unidades (+R$7)","Molho aioli extra (+R$4)"],
@@ -50,6 +56,7 @@ const PRATOS = [
   {
     id:7, nome:"Salada Verde da Roça", cat:"vegetariano",
     emoji:"🥗", preco:22.00,
+    imagem:"https://images.unsplash.com/photo-1512621776951-a57141f2eefd?w=600&q=80",
     desc:"Mix de folhas frescas, tomate cereja, pepino, cenoura ralada, beterraba e sementes, com molho de limão e azeite extra virgem.",
     tags:["vegano","sem glúten","individual"],
     personalizacoes:["Acrescentar ovo poché (+R$3)","Acrescentar frango grelhado (+R$8)","Molho extra (+R$2)"],
@@ -58,6 +65,7 @@ const PRATOS = [
   {
     id:8, nome:"Prato Vegetariano do Dia", cat:"vegetariano",
     emoji:"🌽", preco:30.00,
+    imagem:"https://images.unsplash.com/photo-1540189549336-e6e99c3679fe?w=600&q=80",
     desc:"Preparação especial que muda diariamente, sempre com legumes e verduras frescos da feira, grãos e um toque criativo do chef.",
     tags:["vegetariano","perguntar ao garçom"],
     personalizacoes:["Versão vegana","Porção extra (+R$10)"],
@@ -66,6 +74,7 @@ const PRATOS = [
   {
     id:9, nome:"Pudim de Leite do Clidenor", cat:"sobremesa",
     emoji:"🍮", preco:14.00,
+    imagem:"https://images.unsplash.com/photo-1551024506-0bccd828d307?w=600&q=80",
     desc:"Pudim artesanal com receita secreta da sous chef Ana Beatriz. Textura sedosa, caramelo dourado e gostinho de infância.",
     tags:["individual","contém leite"],
     personalizacoes:["Porção dupla (+R$10)","Calda de chocolate (+R$3)"],
@@ -74,6 +83,7 @@ const PRATOS = [
   {
     id:10, nome:"Canjica com Coco", cat:"sobremesa",
     emoji:"🥛", preco:12.00,
+    imagem:"https://images.unsplash.com/photo-1563805042-7684c019e1cb?w=600&q=80",
     desc:"Canjica de milho branco cremosa, cozida no leite de coco e canela. Servida quente ou fria, como preferir.",
     tags:["sem glúten","vegetariano"],
     personalizacoes:["Calda de caramelo (+R$3)","Amendoim extra (+R$2)"],
@@ -117,9 +127,13 @@ function renderCard(p, container) {
     return `<span class="tag ${cls}">${t}</span>`;
   }).join('');
 
+  const imgStyle = p.imagem
+    ? `style="background-image: url('${p.imagem}'); background-size: cover; background-position: center;"`
+    : '';
+
   div.innerHTML = `
-    <div class="prato-img">
-      <div class="prato-emoji">${p.emoji}</div>
+    <div class="prato-img" ${imgStyle}>
+      ${p.imagem ? '' : `<div class="prato-emoji">${p.emoji}</div>`}
       ${badgeHtml}${esgotadoHtml}
     </div>
     <div class="prato-body">
@@ -310,5 +324,115 @@ function mostrarToast(msg) {
   setTimeout(() => t.classList.remove('show'), 3500);
 }
 
+
+// ═══ RESERVAS ═══
+let resPessoas = 2;
+
+function alterarPessoas(delta) {
+  resPessoas = Math.max(1, Math.min(20, resPessoas + delta));
+  document.getElementById('res-pessoas-num').textContent = resPessoas;
+  document.getElementById('pessoas-label').textContent = resPessoas === 1 ? 'pessoa' : 'pessoas';
+}
+
+function validarResNome(campo) {
+  const temNumero = /\d/.test(campo.value);
+  const aviso = document.getElementById('rerro-nome');
+  if (temNumero) { campo.value = campo.value.replace(/\d/g, ''); aviso.style.display = 'block'; }
+  else aviso.style.display = 'none';
+  return !temNumero && campo.value.trim() !== '';
+}
+
+function validarResEmail(campo) {
+  const valido = /^[^\s@]+@[^\s@]+\.[^\s@]+$/.test(campo.value);
+  const aviso = document.getElementById('rerro-email');
+  aviso.style.display = campo.value && !valido ? 'block' : 'none';
+  return valido;
+}
+
+function validarResTel(campo) {
+  const temLetra = /[a-zA-ZÀ-ú]/.test(campo.value);
+  const aviso = document.getElementById('rerro-tel');
+  if (temLetra) { campo.value = campo.value.replace(/[a-zA-ZÀ-ú]/g, ''); aviso.style.display = 'block'; }
+  else aviso.style.display = 'none';
+  return !temLetra && campo.value.trim() !== '';
+}
+
+function atualizarProgress(step) {
+  for (let i = 1; i <= 3; i++) {
+    const ind = document.getElementById('step-ind-' + i);
+    if (!ind) continue;
+    ind.classList.remove('active', 'done');
+    if (i < step) ind.classList.add('done');
+    else if (i === step) ind.classList.add('active');
+  }
+  const lines = document.querySelectorAll('.progress-line');
+  lines.forEach((l, i) => { l.classList.toggle('done', i < step - 1); });
+}
+
+function avancarStep(step) {
+  if (step === 2) {
+    const nome = document.getElementById('res-nome');
+    const email = document.getElementById('res-email');
+    const tel = document.getElementById('res-tel');
+    const nOk = validarResNome(nome) !== false && nome.value.trim() !== '';
+    const eOk = validarResEmail(email);
+    const tOk = validarResTel(tel) !== false && tel.value.trim() !== '';
+    if (!nOk) { document.getElementById('rerro-nome').style.display = 'block'; nome.focus(); return; }
+    if (!eOk) { document.getElementById('rerro-email').style.display = 'block'; email.focus(); return; }
+    if (!tOk) { document.getElementById('rerro-tel').style.display = 'block'; tel.focus(); return; }
+
+    const hoje = new Date(); hoje.setHours(0,0,0,0);
+    const dataMin = hoje.toISOString().split('T')[0];
+    document.getElementById('res-data').min = dataMin;
+  }
+
+  if (step === 3) {
+    const data = document.getElementById('res-data').value;
+    const hora = document.getElementById('res-hora').value;
+    if (!data) { document.getElementById('rerro-data').style.display = 'block'; return; }
+    else document.getElementById('rerro-data').style.display = 'none';
+    if (!hora) { document.getElementById('rerro-hora').style.display = 'block'; return; }
+    else document.getElementById('rerro-hora').style.display = 'none';
+
+    const nome = document.getElementById('res-nome').value.trim();
+    const tel = document.getElementById('res-tel').value.trim();
+    const ocasiao = document.getElementById('res-ocasiao');
+    const ocasiaoTxt = ocasiao.options[ocasiao.selectedIndex].text;
+    const obs = document.getElementById('res-obs').value.trim();
+    const dataFmt = new Date(data + 'T12:00:00').toLocaleDateString('pt-BR', { weekday:'long', day:'numeric', month:'long', year:'numeric' });
+
+    document.getElementById('conf-nome').textContent = nome.split(' ')[0];
+    document.getElementById('conf-tel').textContent = tel;
+    let resumo = `<strong>Data:</strong> ${dataFmt}<br><strong>Horário:</strong> ${hora}<br><strong>Pessoas:</strong> ${resPessoas}<br>`;
+    if (ocasiao.value) resumo += `<strong>Ocasião:</strong> ${ocasiaoTxt}<br>`;
+    if (obs) resumo += `<strong>Observações:</strong> ${obs}`;
+    document.getElementById('conf-resumo').innerHTML = resumo;
+  }
+
+  document.querySelectorAll('.form-step').forEach(s => s.style.display = 'none');
+  document.getElementById('reserva-step-' + step).style.display = 'block';
+  atualizarProgress(step);
+  document.getElementById('reserva-form-card').scrollIntoView({ behavior: 'smooth', block: 'start' });
+}
+
+function voltarStep(step) {
+  document.querySelectorAll('.form-step').forEach(s => s.style.display = 'none');
+  document.getElementById('reserva-step-' + step).style.display = 'block';
+  atualizarProgress(step);
+}
+
+function novaReserva() {
+  document.getElementById('res-nome').value = '';
+  document.getElementById('res-email').value = '';
+  document.getElementById('res-tel').value = '';
+  document.getElementById('res-data').value = '';
+  document.getElementById('res-hora').value = '';
+  document.getElementById('res-ocasiao').value = '';
+  document.getElementById('res-obs').value = '';
+  resPessoas = 2;
+  document.getElementById('res-pessoas-num').textContent = '2';
+  document.getElementById('pessoas-label').textContent = 'pessoas';
+  avancarStep(1);
+}
 // Inicializar
 renderDestaques();
